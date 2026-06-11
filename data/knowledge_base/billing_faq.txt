@@ -1,0 +1,52 @@
+BILLING AND PAYMENT FAQ
+========================
+
+1. How to Check Current Bill
+Ask the customer to:
+- Log into their account at www.yourcompany.com/account
+- Click on "My Bills" in the left menu
+- The latest invoice will be shown at the top
+
+2. Payment Methods Accepted
+We accept the following payment methods:
+- Credit cards: Visa, Mastercard, American Express
+- Debit cards with Visa or Mastercard logo
+- Net Banking (all major Indian banks)
+- UPI (Google Pay, PhonePe, Paytm)
+- EMI (available for bills above Rs 5000, only on select credit cards)
+
+3. Bill Payment Due Date
+- Bills are generated on the 1st of every month
+- Payment due date is the 15th of every month
+- A late payment fee of Rs 100 is charged after the due date
+- Service may be suspended after 30 days of non-payment
+
+4. Late Payment Fee Waiver
+An agent can waive the late payment fee ONCE per customer per year if:
+- The customer has been with the company for more than 1 year
+- The customer has a good payment history (no more than 2 late payments in 12 months)
+- The customer provides a valid reason (travel, hospitalization, etc.)
+- Approval is not required from supervisor for amounts below Rs 200
+
+5. Bill Dispute Process
+If the customer disputes a charge on their bill:
+Step 1: Verify the charge by checking the account notes in the CRM
+Step 2: If the charge looks incorrect, raise a dispute ticket immediately
+Step 3: Inform the customer that the dispute will be resolved within 7 working days
+Step 4: If the dispute is valid, a credit will be added to the next bill
+Step 5: Never promise a cash refund for billing disputes without supervisor approval
+
+6. Duplicate Payment
+If a customer has paid twice:
+- Verify both payments in the payment gateway portal
+- Raise a duplicate payment ticket with both transaction IDs
+- The excess amount will be refunded within 10-15 business days
+- Alternatively, the excess can be adjusted against the next bill (faster option)
+
+7. EMI Plans
+For customers who want to pay in installments:
+- EMI is available for outstanding amounts above Rs 5000
+- Duration options: 3 months, 6 months, or 12 months
+- No extra interest for 3-month EMI
+- 1.5% monthly interest for 6 and 12 month EMI
+- EMI setup requires verification of the registered credit card

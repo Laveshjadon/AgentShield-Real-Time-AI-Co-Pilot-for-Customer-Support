@@ -1,0 +1,16 @@
+Welcome to TechNova Support!
+Below is our general refund and troubleshooting policy.
+
+1. Refund Policy
+Customers are eligible for a full refund within 30 days of purchase if the product is defective or does not meet their expectations.
+To claim a refund, the customer must provide their original order ID and a brief reason for the return.
+Refunds will be processed to the original payment method within 5-7 business days.
+
+2. Internet Connectivity Issues
+If a customer complains about their internet not working, ask them to check the router lights. 
+If the "Internet" light is blinking red, it means there is an outage in their area.
+If the light is solid green but there is no internet, ask the customer to unplug the router, wait 30 seconds, and plug it back in.
+
+3. Account Lockouts
+If a customer is locked out of their account due to too many failed password attempts, they must wait 15 minutes before trying again.
+Agents can manually send a password reset link to the email on file. Agents should never ask for the customer's current password over the phone.

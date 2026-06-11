@@ -1,0 +1,56 @@
+ESCALATION AND COMPLAINT HANDLING GUIDE
+=========================================
+
+1. When to Escalate to Supervisor
+Escalate the call to your supervisor immediately if:
+- The customer explicitly asks to speak to a supervisor or manager
+- The customer uses threatening or abusive language repeatedly
+- The agent has tried all troubleshooting steps and the issue is unresolved
+- The customer is threatening legal action or filing a consumer forum complaint
+- The issue involves a refund above Rs 10,000
+- The customer is a VIP or business account holder
+
+2. How to Put a Customer on Hold
+Before putting a customer on hold:
+- Always ask permission: "May I please put you on hold for 1-2 minutes while I check this?"
+- Never hold a customer for more than 3 minutes without checking back
+- If you need more time, check back and inform the customer: "I need 2 more minutes, is that okay?"
+- Never abandon a customer on hold
+
+3. Handling Angry Customers
+Step 1: Let the customer speak without interrupting
+Step 2: Acknowledge their frustration: "I completely understand your frustration and I sincerely apologize for the inconvenience."
+Step 3: Do NOT argue or become defensive
+Step 4: Focus on what you CAN do, not what you cannot
+Step 5: Offer a concrete next step with a timeline: "I will personally ensure this is resolved by tomorrow 5 PM."
+Step 6: If the customer calms down, thank them for their patience
+
+4. Handling Abusive Language
+If a customer uses abusive language:
+- Warn calmly: "Sir/Madam, I want to help you but I need us to have a respectful conversation."
+- If abuse continues: "I understand you are upset. If the language continues, I will need to end this call."
+- If abuse continues after the warning: End the call professionally and log the incident in CRM
+- Do not respond to abuse with anger or sarcasm
+
+5. Consumer Forum / Legal Threats
+If a customer threatens to go to consumer forum or file a legal case:
+- Do not panic or argue
+- Say: "I understand your concern. I would like to resolve this for you before it reaches that stage."
+- Immediately escalate to your supervisor
+- Note the exact words the customer used in the call log
+- Do not make any promises you are not authorized to make
+
+6. Complaint Registration
+Every complaint must be registered in the CRM system:
+- Complaint ID must be shared with the customer before ending the call
+- Expected resolution time must be communicated clearly
+- Standard resolution time: 24 hours for billing, 48 hours for technical, 7 days for refunds
+- After the complaint is resolved, call the customer back to confirm satisfaction
+
+7. Difficult Call De-escalation Phrases
+Use these phrases to calm an angry customer:
+- "I completely understand how frustrating this must be for you."
+- "You are absolutely right to feel this way."
+- "I am going to personally take ownership of this issue."
+- "Let me see exactly what I can do for you right now."
+- "I appreciate your patience, and I will make sure this is sorted out."

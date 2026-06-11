@@ -1,0 +1,50 @@
+INTERNET AND ROUTER TROUBLESHOOTING GUIDE
+==========================================
+
+1. No Internet Connection - Basic Steps
+If the customer has no internet:
+Step 1: Ask the customer to check the router lights.
+  - Power light solid green = Router is on (good)
+  - Internet light blinking red = Outage in their area (check outage map)
+  - Internet light solid green = Router is fine, problem is elsewhere
+Step 2: Ask the customer to restart the router.
+  - Unplug the router from the power socket
+  - Wait exactly 30 seconds
+  - Plug it back in and wait 2 minutes for it to reconnect
+Step 3: If problem persists, check if other devices also have no internet.
+  - If all devices have no internet = Problem is with the router or ISP line
+  - If only one device has no internet = Problem is with that specific device
+
+2. Slow Internet Speed
+If the customer is experiencing slow speeds:
+- Ask them to run a speed test at fast.com or speedtest.net
+- If the speed is less than 50% of their plan speed, escalate to technical team
+- Common causes: Too many devices connected, router placed far from device, peak usage hours
+- Suggest: Restart router, move closer to router, disconnect unused devices
+
+3. WiFi Connected but No Internet
+If the customer's device shows WiFi connected but no internet:
+- Ask them to forget the WiFi network and reconnect
+- Check if the router is in bridge mode (common configuration issue)
+- Try connecting with a LAN cable to rule out WiFi issue
+- If LAN works but WiFi does not, the router needs a firmware update
+
+4. Router Blinking Red
+If the Internet light on the router is blinking red:
+- This indicates a line fault or ISP outage
+- Check the outage map on the company website
+- If no outage is listed, escalate to technical team for a line test
+- Do NOT ask the customer to factory reset the router without technical approval
+
+5. Factory Reset Instructions (Only when authorized)
+Warning: Factory reset deletes all custom settings.
+- Press and hold the reset button on the back of the router for 10 seconds
+- Wait 3 minutes for the router to restart
+- The customer will need to set up their WiFi name and password again
+
+6. Escalation Criteria
+Escalate to Level 2 Technical Support if:
+- Issue persists after router restart and 30 minutes
+- Customer reports the problem happening repeatedly for more than 3 days
+- Line test shows signal strength below threshold
+- Customer is a business account (priority escalation)

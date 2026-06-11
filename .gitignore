@@ -1,0 +1,56 @@
+
+# Git Ignore
+
+
+# Secrets 
+.env
+*.pem
+*.key
+
+# Python
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.venv/
+venv/
+env/
+
+# ML Models (too large for Git) 
+models/
+*.pt
+*.bin
+*.onnx
+*.safetensors
+
+# Audio Data (too large for Git) 
+data/audio_samples/
+data/audio_out/
+*.wav
+*.mp3
+*.flac
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker 
+pgdata/
+
+#  Logs 
+logs/
+*.log
+
+#  Local benchmark output 
+data/benchmark_results.csv
+data/benchmark_results.md
