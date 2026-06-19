@@ -1,0 +1,9 @@
+# RAG evaluation and tracing
+langsmith>=0.1.147
+ragas>=0.2.8
+deepeval>=2.0.0
+datasets>=2.20.0
+
+# Judge/generator clients commonly used by RAGAS and DeepEval
+openai>=1.14.0
+langchain-openai>=0.1.0

@@ -26,7 +26,7 @@ if PROJECT_ROOT not in sys.path:
 
 
 from config.settings import Settings                  # noqa: E402
-from db.models import Base                            # noqa: E402
+from src.core.db import Base                            # noqa: E402
 
 
 

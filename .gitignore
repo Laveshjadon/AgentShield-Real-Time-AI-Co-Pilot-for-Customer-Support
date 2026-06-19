@@ -51,6 +51,9 @@ pgdata/
 logs/
 *.log
 
-#  Local benchmark output 
+#  Local benchmark output
 data/benchmark_results.csv
 data/benchmark_results.md
+
+# Local dev scripts (not needed on GitHub)
+start-dashboard.ps1

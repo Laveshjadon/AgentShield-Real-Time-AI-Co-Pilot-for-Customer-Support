@@ -1,0 +1,35 @@
+TRANSACTION FAILURE & MONEY DEDUCTED POLICY
+
+Q: My transaction failed but money was deducted from my account. What should I do?
+A: This is a common issue caused by a network timeout between the payment gateway and the merchant. The money is not lost — it is held in a temporary debit state. Standard resolution timeline is 3–7 business days for auto-reversal. Steps for the agent:
+1. Confirm the transaction ID from the customer.
+2. Check the transaction status in the payment portal.
+3. If status shows "pending" or "reversed", inform the customer the refund will credit within 3–7 business days.
+4. If status shows "success" on our end, escalate to the technical team with the transaction ID.
+5. Raise a dispute ticket if amount is not reversed within 7 business days.
+
+Q: How long does a failed transaction refund take?
+A: Refunds for failed transactions are processed within 3–7 business days for debit cards and 5–10 business days for credit cards. UPI refunds are typically processed within 24–48 hours. Net banking refunds take 3–5 business days.
+
+Q: Customer says money was debited twice for one transaction.
+A: Double debit usually occurs when the customer retried a failed payment. Verify both transaction IDs. If both show "success", raise an urgent escalation ticket tagged "double debit". The finance team will process a manual reversal within 24 hours for confirmed duplicates.
+
+Q: What if the transaction shows success but merchant did not receive payment?
+A: This is a settlement delay issue. Payment gateway settlements run in batches at 11:59 PM daily. Ask the merchant to check again after 24 hours. If still not received after 48 hours, raise a settlement dispute with both transaction IDs.
+
+REFUND POLICY
+
+Q: What is the standard refund policy?
+A: Customers can request a refund within 30 days of the transaction date. Refunds are credited to the original payment method. Cash refunds are not provided. Partial refunds are available for partial cancellations.
+
+Q: How do I initiate a refund for a customer?
+A:
+1. Verify customer identity (name, registered mobile, last 4 digits of card).
+2. Confirm transaction ID and purchase details.
+3. Check if refund is within the 30-day window.
+4. Raise a refund request in the CRM system with reason code.
+5. Inform customer of expected timeline (3–7 business days).
+6. Send confirmation SMS/email to customer.
+
+Q: Can a refund be expedited?
+A: Standard refunds cannot be expedited. However, if the customer is facing genuine hardship or the error was on our side, a supervisor can approve priority processing (24–48 hours) by marking the ticket as "urgent refund".

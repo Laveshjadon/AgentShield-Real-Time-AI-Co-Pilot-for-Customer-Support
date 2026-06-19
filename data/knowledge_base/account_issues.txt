@@ -1,0 +1,45 @@
+ACCOUNT & LOGIN ISSUES POLICY
+
+Q: Customer cannot log in to their account.
+A: Troubleshooting steps in order:
+1. Ask customer to check if they are using the correct email/mobile number registered with us.
+2. Try "Forgot Password" flow — OTP will be sent to registered mobile.
+3. If OTP not received: check if the number is active and not in DND. Resend OTP after 30 seconds.
+4. If account is locked (5 failed attempts), it auto-unlocks after 30 minutes. Agent can also manually unlock from CRM.
+5. If login still fails, escalate to tech support with customer ID.
+
+Q: Customer says their account has been deactivated.
+A: Accounts are deactivated for inactivity (no login for 12 months) or due to a compliance flag.
+- Inactivity deactivation: Customer must submit a reactivation request with KYC verification. Process takes 2–3 business days.
+- Compliance flag: Do NOT discuss reasons on call. Transfer to the compliance team immediately.
+
+Q: Customer wants to change their registered mobile number.
+A: Mobile number change requires:
+1. OTP verification on the OLD number.
+2. If old number is inaccessible, customer must visit the nearest branch with government-issued photo ID.
+3. Changes reflect within 24 hours after verification.
+
+Q: Customer says they did not make a transaction shown in their account.
+A: This is a potential fraud case. Steps:
+1. Immediately ask the customer to block their card via the app or by calling the card blocking helpline.
+2. Raise a fraud dispute ticket — category "unauthorized transaction".
+3. Advise the customer NOT to share OTP or password with anyone.
+4. Provisional credit may be issued within 10 business days while investigation is ongoing.
+5. Do not confirm whether fraud occurred — only the fraud team can confirm.
+
+CARD MANAGEMENT
+
+Q: How to block a debit/credit card?
+A: Customer can block card via: app > Cards > Block Card. Or agent can block from CRM > Customer Profile > Card Management > Block. Temporary block takes effect immediately. Permanent block (if card is lost/stolen) requires a new card request.
+
+Q: How long does a replacement card take?
+A: Standard delivery is 7–10 business days. Express delivery (additional fee) is 2–3 business days. Customer will receive SMS when card is dispatched.
+
+Q: Card declined at POS / ATM. What to check?
+A: Possible reasons:
+- Daily transaction limit exceeded (default: ₹1,00,000/day for debit)
+- International transactions not enabled
+- Card expired
+- Incorrect PIN entered 3 times (card temporarily blocked for 24 hours)
+- Merchant category blocked by customer's own settings
+Check card status in CRM and inform the customer of the specific reason.

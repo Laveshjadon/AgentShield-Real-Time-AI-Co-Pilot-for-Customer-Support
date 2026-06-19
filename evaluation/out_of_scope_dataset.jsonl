@@ -1,0 +1,17 @@
+{"id": "weather", "question": "What is the weather forecast for Mumbai today?", "is_in_scope": false, "category": "completely_unrelated"}
+{"id": "mutual_funds", "question": "What mutual funds does your bank recommend for long-term investment?", "is_in_scope": false, "category": "out_of_domain"}
+{"id": "demat_account", "question": "Can I open a demat account through your bank?", "is_in_scope": false, "category": "out_of_domain"}
+{"id": "repo_rate", "question": "What is the current RBI repo rate?", "is_in_scope": false, "category": "external_knowledge"}
+{"id": "forex_rate", "question": "What is today's USD to INR exchange rate?", "is_in_scope": false, "category": "external_knowledge"}
+{"id": "insurance", "question": "Do you offer life insurance or term insurance products?", "is_in_scope": false, "category": "out_of_domain"}
+{"id": "competitor", "question": "How does your bank compare to HDFC Bank in terms of interest rates?", "is_in_scope": false, "category": "competitor_info"}
+{"id": "investment_advice", "question": "Should I put my savings in a fixed deposit or invest in stocks?", "is_in_scope": false, "category": "personal_financial_advice"}
+{"id": "branch_locator", "question": "Where is the nearest ATM to Connaught Place in Delhi?", "is_in_scope": false, "category": "real_time_location"}
+{"id": "loan_rate_live", "question": "What is your current home loan interest rate today?", "is_in_scope": false, "category": "live_rate_not_in_kb"}
+{"id": "hinglish_oos_1", "question": "Bhai mujhe stock market mein invest karna hai kaise karu?", "is_in_scope": false, "category": "out_of_domain_hinglish"}
+{"id": "hinglish_oos_2", "question": "Mera phone kharab ho gaya hai use kaise theek karu?", "is_in_scope": false, "category": "completely_unrelated_hinglish"}
+{"id": "legal_advice", "question": "Can I sue the bank for wrongfully freezing my account?", "is_in_scope": false, "category": "legal_advice"}
+{"id": "crypto", "question": "Does your bank support Bitcoin or cryptocurrency transactions?", "is_in_scope": false, "category": "out_of_domain"}
+{"id": "refund_control", "question": "How long does a customer have to request a refund?", "is_in_scope": true, "category": "control_in_scope"}
+{"id": "fraud_control", "question": "What should the agent do when a customer reports an unauthorized transaction?", "is_in_scope": true, "category": "control_in_scope"}
+{"id": "kyc_control", "question": "What documents are required for KYC verification?", "is_in_scope": true, "category": "control_in_scope"}

@@ -1,0 +1,54 @@
+KYC & COMPLIANCE POLICY
+
+Q: Customer's KYC is pending — what services are restricted?
+A: With incomplete KYC:
+- Transaction limit capped at ₹10,000/month
+- Cannot open new savings/FD accounts
+- International transactions disabled
+- Loan applications not accepted
+Customer must complete KYC to lift restrictions.
+
+Q: How can a customer complete their KYC?
+A: Options:
+1. Video KYC (fastest — 10 minutes): Available via app. Customer needs PAN + Aadhaar + good lighting.
+2. Branch KYC: Customer visits nearest branch with original PAN, Aadhaar, and one address proof.
+3. Aadhaar-based e-KYC (paperless): Available for basic savings accounts only.
+KYC verification takes 1–2 business days after submission.
+
+Q: Customer's KYC was rejected — reasons?
+A: Common rejection reasons:
+- Document image blurry or incomplete
+- Name mismatch between PAN and Aadhaar
+- Expired documents submitted
+- Signature mismatch
+Customer can re-submit corrected documents within 30 days without re-starting the process.
+
+Q: Customer received a KYC update SMS — is it genuine?
+A: Our official communication comes from sender ID "AGNTSH". We NEVER ask customers to share OTP, PIN, or login credentials via SMS, email, or call. If the SMS asks for sensitive information, it is PHISHING — advise the customer to report it to cybercrime.gov.in.
+
+COMPLAINT ESCALATION
+
+Q: How to escalate a complaint?
+A: Escalation levels:
+Level 1: Agent resolves within the call
+Level 2: Supervisor callback within 24 hours
+Level 3: Grievance Redressal Officer (GRO) — response within 7 business days
+Level 4: Banking Ombudsman (RBI) — only if GRO response is unsatisfactory
+
+Q: What is the complaint resolution timeline?
+A: By regulation (RBI guidelines):
+- Account/card related: 7 business days
+- Unauthorized transaction disputes: 10 business days
+- Loan-related complaints: 15 business days
+- KYC-related: 15 business days
+Customer can check complaint status using complaint reference number on our website.
+
+Q: Customer is very angry / threatening legal action.
+A: De-escalation steps:
+1. Let the customer speak without interrupting.
+2. Acknowledge: "I understand this has caused inconvenience and I sincerely apologize."
+3. Do NOT make promises you cannot keep.
+4. Offer a supervisor callback if agent cannot resolve immediately.
+5. If customer threatens legal action, inform them of the Grievance Redressal Officer contact.
+6. Document the call with complete details before closing.
+Never argue with or talk over an upset customer.

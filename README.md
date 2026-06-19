@@ -1,71 +1,52 @@
 <div align="center">
+<img src="assets/logo.png" alt="AgentShield Logo" width="180"/>
 
 # AgentShield
 
-### Real-time AI support for safer, faster customer-service calls
+**Enterprise AI co-pilot for call center operators.**
 
-Live speech transcription | Grounded RAG suggestions | Hinglish toxicity detection | Agent wellness
-
-[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-pgvector-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![Redis](https://img.shields.io/badge/Redis-session_state-DC382D?logo=redis&logoColor=white)](https://redis.io/)
-[![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
-[![Status](https://img.shields.io/badge/status-working_prototype-22C55E)](#project-status)
-
-**[Architecture](#architecture) | [Features](#core-capabilities) | [Benchmarks](#model-evaluation--benchmarks) | [Setup](#setup) | [API](#api-reference)**
+[![Python 3.11](https://img.shields.io/badge/Python-3.11-3776AB.svg?style=flat&logo=python&logoColor=white)](https://www.python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688.svg?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![NiceGUI](https://img.shields.io/badge/NiceGUI-0B7285.svg?style=flat)](https://nicegui.io)
+[![pgvector](https://img.shields.io/badge/pgvector-4169E1.svg?style=flat&logo=postgresql&logoColor=white)](https://github.com/pgvector/pgvector)
+[![Redis](https://img.shields.io/badge/Redis-DC382D.svg?style=flat&logo=redis&logoColor=white)](https://redis.io)
+[![Docker](https://img.shields.io/badge/Docker-2496ED.svg?style=flat&logo=docker&logoColor=white)](https://www.docker.com)
+[![Status](https://img.shields.io/badge/Status-Pre--Production-f59e0b.svg?style=flat)](#-project-status)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 </div>
 
 ---
 
-AgentShield is a portfolio project I built to explore how AI could support customer-service agents during difficult live calls. It transcribes speech, retrieves relevant policy documents, suggests grounded English or Hinglish responses, and tracks toxicity and agent wellness. The most interesting challenge was keeping several imperfect components, including browser speech recognition, VAD, retrieval, and generation, useful in one near-real-time workflow.
+## ⚡ TL;DR
 
-## Core Capabilities
+> AgentShield streams live call audio, transcribes speech with `faster-whisper`, retrieves policy-grounded answers through hybrid RAG, detects English and Hinglish toxicity, and tracks operator wellness during a shift.
 
-| Live Call Intelligence | Grounded Assistance | Agent Safety |
-| --- | --- | --- |
-| Browser interim captions | BM25 + pgvector hybrid retrieval | English and Hinglish toxicity scoring |
-| faster-whisper transcription | Source-grounded response generation | Real-time danger and escalation alerts |
-| PCM16 WebSocket streaming | No-answer behavior when policy is missing | Shift-level wellness tracking |
-| VAD and FFmpeg normalization | TXT, PDF, DOCX, and HTML ingestion | Bias-aware performance scoring |
+> [!WARNING]
+> AgentShield is pre-production software. Authentication, authorization, distributed session ownership, and model validation must be hardened before processing real customer data.
 
-> **Prototype status:** The complete local workflow is implemented for demos and portfolio review. Authentication, distributed session ownership, and validated production models remain future work.
+---
 
-## Project Status
+## ✨ Core Capabilities
 
-AgentShield is a working prototype intended for local demos, portfolio review, and further experimentation. The core pipeline is implemented, but the project is not yet production-ready for real customer data.
+- **Live call transcription** — Browser captions plus backend `faster-whisper` transcription.
+- **PCM WebSocket streaming** — Direct browser microphone audio streamed to FastAPI.
+- **Voice activity detection** — Silero VAD filters silence before STT inference.
+- **Hybrid RAG** — BM25 keyword retrieval plus `pgvector` semantic search fused with Reciprocal Rank Fusion.
+- **Grounded suggestions** — Returns `No KB match found` when indexed policy does not support an answer.
+- **PII redaction** — Strips PAN, Aadhaar, credit card, phone, and bank account identifiers before LLM processing.
+- **English + Hinglish toxicity detection** — Flags abuse, threats, fraud accusations, frustration, and service-quality complaints.
+- **Bias-aware scoring** — Weights aggressive calls at `0.5×` when computing agent performance metrics.
+- **Wellness tracking** — Redis-backed shift state for toxic-call exposure and break recommendations.
+- **NiceGUI dashboard** — Operator UI for transcript, suggestions, toxicity alerts, wellness status, and knowledge search.
 
-Implemented:
+---
 
-- FastAPI endpoints for call sessions, text analysis, audio upload, wellness, and knowledge workflows.
-- Redis-backed session and wellness state.
-- PostgreSQL/pgvector knowledge storage with BM25 + vector retrieval.
-- Browser live captions plus backend faster-whisper transcription.
-- Direct browser PCM streaming and FFmpeg normalization for encoded audio.
-- Local BM25 `.txt` and `.md` knowledge fallback when PostgreSQL retrieval is unavailable.
-- STT, VAD, TTS, PII redaction, English/Hinglish toxicity scoring, and dashboard modules.
-- Alembic migration files and a Docker Compose setup for local infrastructure.
-
-Experimental or needs hardening:
-
-- Authentication and authorization are not implemented.
-- CORS defaults to the local dashboard origins and should be set to deployment-specific domains in production.
-- Live `ConversationManager` instances are held in process memory, so horizontal scaling needs additional design.
-- Some retrieval/model operations are synchronous and should be profiled before production use.
-- Browser live captions rely on the Web Speech API and work best in Chrome or Edge.
-- The local KB and fakeredis fallbacks are intended for development and demos, not durable production storage.
-- Current benchmark numbers are local development measurements, not production latency guarantees.
-
-## Configuration
-
-Copy `.env.example` to `.env` and fill in local values before running the app. Do not commit `.env` or real API keys.
-
-## Architecture
+## 🧭 Architecture
 
 ```mermaid
 flowchart LR
-    MIC[Browser Microphone] --> CAP[Web Speech API<br/>Interim Captions]
+    MIC[Browser Microphone] --> CAP[Web Speech API\nInterim Captions]
     MIC --> PCM[PCM16 WebSocket]
     PCM --> VAD[Silero VAD]
     VAD --> STT[faster-whisper]
@@ -74,8 +55,8 @@ flowchart LR
     STT --> CM
 
     CM --> PII[PII Redaction]
-    PII --> RAG[Hybrid RAG<br/>BM25 + pgvector + RRF]
-    PII --> TOX[Toxicity Analysis<br/>English + Hinglish]
+    PII --> RAG[Hybrid RAG\nBM25 + pgvector + RRF]
+    PII --> TOX[Toxicity Analysis\nEnglish + Hinglish]
 
     KB[(Policy Documents)] --> RAG
     RAG --> LLM[Grounded LLM Suggestion]
@@ -97,612 +78,454 @@ flowchart LR
     class CM,UI,KB output
 ```
 
-## Tech Stack
+---
 
-| Component | Technology | Reason for choosing |
-| --- | --- | --- |
-| API | FastAPI + Uvicorn | FastAPI gives async route support and automatic OpenAPI docs; Uvicorn runs the ASGI app. |
-| UI | NiceGUI dashboard | Builds a real-time Python dashboard without a frontend build pipeline. |
-| Database | PostgreSQL 16 + pgvector | Keeps relational data and vector search in one database. |
-| Session Store | Redis | Manages conversational state and agent wellness. WebSocket model instances still require additional work for full horizontal scaling. |
-| ORM | SQLAlchemy | Provides ORM models, connection pooling, and session helpers. Current code uses synchronous sessions. |
-| Embeddings | `sentence-transformers/all-MiniLM-L6-v2` | Produces 384-dimensional embeddings with low local compute cost. |
-| RAG | Custom Hybrid (BM25 + pgvector + RRF) | Uses rank-bm25 for fast keyword retrieval and pgvector for semantic search, fused with Reciprocal Rank Fusion. |
-| LLM | Native OpenAI or Groq SDK | Provider can be switched with environment variables. Uses strict Pydantic JSON validation. |
-| STT | faster-whisper | Uses CTranslate2 inference for lower CPU latency than the original Whisper implementation. |
-| Live Captions | Browser Web Speech API | Displays interim customer speech immediately in supported browsers. |
-| Audio Normalization | PCM conversion + FFmpeg | Browser PCM16 is normalized directly; uploaded or encoded streams use asynchronous FFmpeg decoding. |
-| VAD | Silero VAD | Filters non-speech audio before sending chunks to Whisper. |
-| TTS | edge-tts | Generates MP3 output without requiring a separate TTS API key. |
-| Containers | Docker + Docker Compose | Runs PostgreSQL with pgvector in a reproducible local environment. |
-| Language | Python 3.11 | Matches the project environment and dependency set. |
+## 🧱 Tech Stack
 
-## Project Structure
+| Layer | Technology | Role |
+|---|---|---|
+| API | FastAPI, Uvicorn | ASGI service, REST endpoints, WebSocket streaming |
+| UI | NiceGUI | Python-based live operator dashboard |
+| Database | PostgreSQL 16, pgvector | Relational storage and vector search |
+| Session state | Redis | Conversation and wellness state |
+| ORM | SQLAlchemy | Models, sessions, and persistence helpers |
+| Retrieval | rank-bm25, pgvector, RRF | Hybrid keyword and semantic retrieval |
+| Embeddings | `all-MiniLM-L6-v2` | 384-dimensional local embeddings |
+| LLM | OpenAI SDK or Groq SDK | Grounded response generation |
+| STT | faster-whisper | Server-side transcription via CTranslate2 |
+| VAD | Silero VAD | Speech segment detection |
+| Audio | PCM16, FFmpeg | Browser streaming and encoded audio normalization |
+| TTS | edge-tts | MP3 response audio generation |
+| Runtime | Python 3.11 | Application language |
+| Local infra | Docker Compose | PostgreSQL + pgvector development stack |
+
+---
+
+## 🗂️ Project Structure
 
 ```text
 AgentShield/
-|-- main.py                        # Starts API and dashboard together
+|-- main.py                         # Starts API and dashboard together
+|-- start-dashboard.ps1             # Windows launcher for local dashboard use
 |-- requirements.txt
+|-- evals_requirements.txt
 |-- Dockerfile
 |-- docker-compose.yml
 |-- config/
-|   |-- settings.py                # Environment-driven configuration
+|   |-- settings.py                 # Environment-driven configuration
 |   `-- logger.py
-|-- db/
-|   |-- connection.py              # SQLAlchemy engine and session helpers
-|   `-- models.py                  # Database models
-|-- scripts/
-|   `-- init_db.py                 # Enables pgvector, creates tables
-|-- rag/
-|   |-- document_loader.py         # Loads supported documents into vector storage
-|   |-- retriever.py               # Retrieves relevant knowledge chunks
-|   `-- generator.py               # Builds LLM suggestions from transcript + context
-|-- stt/
-|   |-- audio_converter.py         # Static file audio conversion
-|   |-- streaming_normalizer.py    # Universal real-time streaming audio normalizer
-|   |-- vad.py                     # Voice activity detection
-|   `-- whisper_engine.py          # Speech-to-text transcription
-|-- tts/
-|   `-- edge_tts_engine.py         # Text-to-speech generation
-|-- core/
-|   `-- conversation_manager.py    # Orchestrates call sessions and AI pipeline
-|-- analysis/
-|   |-- toxicity_analyzer.py       # Toxicity scoring, English + Hinglish
-|   `-- wellness_tracker.py        # Wellness scoring and break recommendations
-|-- api/
-|   |-- main.py                    # FastAPI application
-|   `-- routes/
-|       |-- calls.py               # Call/session endpoints
-|       |-- knowledge.py           # Knowledge base endpoints
-|       `-- wellness.py            # Wellness endpoints
+|-- src/
+|   |-- api/                        # FastAPI app, routes, rate limiting
+|   |-- analysis/                   # PII, toxicity, wellness logic
+|   |-- audio/                      # STT, VAD, TTS, audio normalization
+|   |-- core/                       # DB models/connections and session orchestration
+|   |-- ingestion/                  # Document parsing and indexing
+|   `-- retrieval/                  # Hybrid retrieval, query building, generation
 |-- ui/
-|   `-- dashboard.py               # NiceGUI live dashboard
+|   `-- app.py                      # NiceGUI live dashboard
+|-- evaluation/
+|   |-- golden_dataset.jsonl        # Golden retrieval examples
+|   |-- out_of_scope_dataset.jsonl  # OOS + in-scope control questions for grounding eval
+|   |-- metrics.py                  # Deterministic retrieval metrics
+|   |-- rag_pipelines.py            # Evaluation pipeline adapters
+|   |-- runner.py                   # LangSmith experiment runner
+|   |-- faithfulness.py             # Hallucination / faithfulness evaluator (LLM-as-judge)
+|   |-- grounding.py                # Grounding bypass evaluator
+|   |-- pii_eval.py                 # PII redaction coverage evaluator
+|   `-- eval_suite.py               # Unified CI runner (all three evaluators)
+|-- infra/
+|   `-- scripts/                    # Infrastructure helper scripts
 `-- data/
-    |-- knowledge_base/            # Policy and support documents go here
-    `-- audio_out/                 # Generated TTS audio files
+    |-- knowledge_base/             # Policy and support documents
+    `-- audio_out/                  # Generated TTS audio files
 ```
 
-## Real-Time STT Pipeline
+---
 
-Whisper-style models process audio in batches, so sending every browser buffer directly to the model would waste CPU on silence. I placed Silero VAD before faster-whisper and kept browser captions as a separate low-latency preview. The browser output is useful for immediate feedback, while faster-whisper remains the backend transcription path.
+## ⚙️ Quickstart
 
-- `core/conversation_manager.py` buffers audio until it has about 3 seconds of 16 kHz samples.
-- `stt/vad.py` uses Silero VAD to decide whether the chunk contains speech.
-- `ui/dashboard.py` uses the browser Web Speech API to display interim captions while the customer is speaking.
-- Browser microphone samples are resampled to 16 kHz PCM16 and streamed over WebSocket with explicit format metadata.
-- Raw browser PCM bypasses FFmpeg and is converted directly to normalized float32 samples on the backend.
-- `stt/streaming_normalizer.py` uses `asyncio.subprocess` and FFmpeg for encoded/containerized audio such as Opus, MP3, and WebM.
-- `stt/audio_converter.py` uses a context-managed FFmpeg pipeline to validate file size (max 25MB) and duration (max 10 mins) before converting uploaded audio.
-- `stt/whisper_engine.py` sends accepted audio to faster-whisper.
-- `/api/calls/ws/audio/{session_id}` accepts continuous audio chunks and returns finalized backend transcriptions.
-- Stopping microphone capture flushes buffered samples and trailing silence so VAD can finalize the last utterance.
+<details>
+<summary><strong>Expand local setup instructions</strong></summary>
+<br/>
 
-The current benchmark section reports STT latency for 20 synthetic calls on CPU using the faster-whisper base model. Those numbers should be treated as early measurements, not a production latency guarantee.
-
-## RAG Pipeline
-
-The response generator should answer from company policy rather than rely on the model's general knowledge. I combined BM25 for exact terms with pgvector for semantic matches, then fused both rankings with Reciprocal Rank Fusion. This matters for support queries because a phrase such as "money deducted" may need a refund document even when the wording does not match exactly.
-
-- Documents (`.txt`, `.md`, `.pdf`, `.docx`, `.html`) are placed in `data/knowledge_base/`.
-- `rag/loaders/` routes each format to `PyMuPDF`, `python-docx`, or `BeautifulSoup4` and preserves source and page metadata.
-- `rag/document_loader.py` indexes these documents into the vector database.
-- `rag/query_builder.py` normalizes business terminology and extracts keywords.
-- `rag/hybrid_retriever.py` searches BM25 and pgvector, returning fused top-k chunks.
-- `rag/retriever.py` attempts pgvector retrieval first and falls back to BM25 search over local `.txt` and `.md` files when PostgreSQL is unavailable.
-- The local fallback boosts source-name matches, so queries containing terms such as `refund` prioritize `refund_policy.txt`.
-- `rag/prompt_builder.py` structures a strict JSON system prompt and enforces native multilingual support (English, Hindi, Hinglish), mirroring the user's language and script while maintaining a highly respectful, formal banking tone.
-- `rag/llm_client.py` natively calls the LLM with Pydantic validation, returning a guaranteed JSON structure.
-- Before reaching the LLM, `analysis/pii_service.py` redacts common sensitive identifiers such as credit cards, phone numbers, PAN, Aadhaar, and bank-account-like numbers.
-
-If retrieval produces no relevant context, the dashboard shows `No KB match found` instead of asking the LLM to invent an answer. This is expected for unrelated phrases such as greetings or microphone checks.
-
-`LLM_PROVIDER` can be `openai` or `groq`. Both paths use their native SDKs, JSON mode, and Pydantic validation so the dashboard receives a predictable response shape.
-
-## Dual-Layer Toxicity Detection
-
-Toxicity detection needs to respond quickly, but a keyword list alone cannot handle context well. The analyzer therefore starts with English and romanized Hinglish rules, then asks the LLM for deeper scoring only when the first pass finds a signal. This keeps ordinary messages on the cheaper path without presenting the result as a validated classifier.
-
-- `analysis/toxicity_analyzer.py` scans English and romanized Hinglish keywords and regex patterns.
-- Hinglish coverage includes frustration, complaint, fraud, police/report, refund, and service-quality phrases.
-- Multiple frustration signals receive an additional score so phrases such as `Main bahut pareshan hoon, koi help nahi kar raha` reach warning level.
-- Threats, abuse patterns, and frustration phrases contribute to a score from `0.0` to `1.0`.
-- If the keyword score is above `0.2`, the analyzer can ask Groq for deeper scoring.
-- Output includes `score`, `level`, `flags`, `is_toxic`, and `alert_message`.
-
-Example Hinglish test phrases:
-
-| Phrase | Expected level |
-| --- | --- |
-| `Main bahut pareshan hoon, koi help nahi kar raha.` | Warning |
-| `Tumhari service bahut kharab hai, main complaint karunga.` | Danger |
-| `Tum log fraud company ho, main police mein report karunga.` | Critical |
-
-### Levels
-
-| Score range | Level | Meaning |
-| --- | --- | --- |
-| `< 0.25` | `safe` | No action flag. |
-| `0.25 - 0.49` | `warning` | Frustration or early hostility. |
-| `0.50 - 0.74` | `danger` | Hostile language detected. |
-| `>= 0.75` | `critical` | Abusive or threatening language detected. |
-
-## Agent Wellness Tracking
-
-One difficult call may not say much about an agent's shift, but several aggressive calls in a row can. The wellness tracker keeps a simple running score so the dashboard can react to repeated exposure rather than treating each call as isolated.
-
-- `analysis/wellness_tracker.py` starts each agent at a wellness score of `100`.
-- Safe calls recover `+5` points.
-- Warning, danger, and critical calls apply penalties of `3`, `10`, and `20`.
-- Toxic calls longer than 5 minutes multiply the penalty by `1.5`.
-- Three or more consecutive toxic calls multiply the penalty by `1.25`.
-- A break restores `2` points per minute, capped at `40`.
-- `agent_wellness` stores stress score, total calls, toxic calls, consecutive toxic calls, and break recommendation fields.
-
-### Break recommendation logic
-
-A break is recommended when the wellness score drops below `30`, the stress level becomes `critical`, or the agent has 3+ consecutive toxic calls.
-
-## Bias-Aware Performance Scoring
-
-Raw performance averages can punish agents who happen to receive more aggressive calls. I added a simple weighted calculation to explore how call difficulty could be represented instead of assuming every call is equally controllable.
-
-### Calculation
-
-Aggressive calls are weighted at `0.5x` when calculating the performance average:
-
-```text
-adjusted =
-  (clean_avg * clean_count + aggressive_avg * 0.5 * agg_count)
-  / (clean_count + 0.5 * agg_count)
-```
-
-### Example
-
-```text
-clean_avg       = 90
-clean_count     = 8
-aggressive_avg  = 70
-agg_count       = 4
-
-raw_average =
-  (90 * 8 + 70 * 4) / (8 + 4)
-  = 83.33
-
-adjusted =
-  (90 * 8 + 70 * 0.5 * 4) / (8 + 0.5 * 4)
-  = 86.00
-```
-
-The adjusted score still includes aggressive calls, but it reduces their weight because the agent had less control over caller behavior.
-
-### Current implementation status
-
-This scoring layer is implemented for the current prototype. The `call_logs` model stores transcript and toxicity metadata, and the adjusted average performance can be queried using `GET /api/calls/agent/{agent_id}/performance`.
-
-## NiceGUI Live Dashboard
-
-I used NiceGUI so I could build and iterate on the operator workflow in Python while focusing most of the project effort on the ML and backend pipeline. The dashboard is a live workspace rather than a separate reporting page.
-
-It shows:
-
-- Interim live browser captions
-- Final customer/agent transcript
-- AI-generated response suggestion
-- Toxicity score and level
-- Agent wellness status
-- Knowledge-base search
-
-The dashboard runs at:
-
-```text
-http://localhost:8081
-```
-
-## API Reference
-
-### Health
-
-| Method | Endpoint | Purpose |
-| --- | --- | --- |
-| `GET` | `/` | Return basic service status. |
-| `GET` | `/health` | Check API and database connectivity. |
-| `POST` | `/api/analysis/toxicity` | Analyse a text string for toxicity. |
-
-Request:
-
-```json
-{
-  "text": "This is the worst service I have ever experienced."
-}
-```
-
-Response:
-
-```json
-{
-  "text": "This is the worst service I have ever experienced.",
-  "score": 0.1,
-  "level": "safe",
-  "is_toxic": false,
-  "alert_message": "",
-  "flags": ["frustration:worst service"]
-}
-```
-
-### Calls
-
-| Method | Endpoint | Purpose |
-| --- | --- | --- |
-| `POST` | `/api/calls/start` | Start a session and return `session_id`. |
-| `POST` | `/api/calls/analyse-text` | Analyse one transcript turn and return a suggestion if the speaker is `customer`. |
-| `POST` | `/api/calls/transcribe-audio/{session_id}` | Upload audio for transcription. |
-| `GET` | `/api/calls/session/{session_id}` | Return current session transcript. |
-| `GET` | `/api/calls/active` | List active sessions. |
-| `POST` | `/api/calls/end/{session_id}` | End a session, persisting scores and wellness summaries. |
-| `GET` | `/api/calls/agent/{agent_id}/performance` | Get bias-adjusted performance metric breakdown for the given agent. |
-
-Start request:
-
-```json
-{
-  "agent_id": "agent_001"
-}
-```
-
-Start response:
-
-```json
-{
-  "session_id": "a1b2c3d4e5",
-  "agent_id": "agent_001",
-  "message": "Session a1b2c3d4e5 started successfully."
-}
-```
-
-Analyse text request:
-
-```json
-{
-  "session_id": "a1b2c3d4e5",
-  "speaker": "customer",
-  "text": "I bought this router 10 days ago and it stopped working."
-}
-```
-
-Analyse text response:
-
-```json
-{
-  "session_id": "a1b2c3d4e5",
-  "speaker": "customer",
-  "transcribed_text": "I bought this router 10 days ago and it stopped working.",
-  "ai_suggestion": "Ask for the order ID and confirm whether the item is within the refund window.",
-  "toxicity_score": 0.0,
-  "toxicity_level": "safe",
-  "alert_message": null
-}
-```
-
-End call note:
-
-`/api/calls/end/{session_id}` also requires `agent_id` as a query parameter in the current route implementation.
-
-```text
-POST /api/calls/end/a1b2c3d4e5?agent_id=agent_001
-```
-
-### Knowledge Base
-
-| Method | Endpoint | Purpose |
-| --- | --- | --- |
-| `POST` | `/api/knowledge/upload` | Upload and index a supported knowledge document. |
-| `POST` | `/api/knowledge/search` | Run semantic search over indexed chunks. |
-| `GET` | `/api/knowledge/documents` | List uploaded knowledge documents. |
-
-Search request:
-
-```json
-{
-  "query": "refund policy for defective router",
-  "top_k": 3
-}
-```
-
-Search response:
-
-```json
-{
-  "query": "refund policy for defective router",
-  "results": "Relevant policy chunks returned by the retriever.",
-  "found": true
-}
-```
-
-### Wellness
-
-| Method | Endpoint | Purpose |
-| --- | --- | --- |
-| `GET` | `/api/wellness/{agent_id}/status` | Return current wellness status. |
-| `POST` | `/api/wellness/{agent_id}/break` | Log a break. |
-| `GET` | `/api/wellness/{agent_id}/report` | Return shift report. |
-| `GET` | `/api/wellness/` | List tracked agents. |
-
-Break request:
-
-```json
-{
-  "duration_minutes": 10
-}
-```
-
-Break response:
-
-```json
-{
-  "message": "Break of 10 minutes logged for agent_001.",
-  "wellness_score_after_break": 100.0,
-  "stress_level": "low"
-}
-```
-
-## Architecture Decisions
-
-### pgvector instead of FAISS
-
-I chose pgvector because the project already needed PostgreSQL for call and wellness data, so keeping embeddings there avoided a second index and ID-synchronization logic. This is simpler for a portfolio-sized dataset and makes source metadata easy to query beside each vector. At a larger scale, I would benchmark recall, indexing time, and query latency before deciding whether pgvector still fits or whether a dedicated vector system is justified.
-
-### faster-whisper for backend transcription
-
-I used faster-whisper because CTranslate2 makes local CPU inference practical enough for this prototype, especially when paired with short speech segments. It also let me keep transcription on the backend instead of depending entirely on browser captions. At scale, I would reconsider local inference versus a managed or GPU-backed service based on concurrency, cost, and latency measurements.
-
-### Silero VAD before transcription
-
-I added Silero VAD because silence and background noise still consume transcription time. Filtering first reduced unnecessary model calls and gave the buffering logic a clearer speech boundary. With real call-center audio, I would retune or replace this stage after measuring missed speech, interruptions, and noisy-room behavior.
-
-### Configurable LLM provider
-
-Groq is the default because low response time is useful during a live call, while the OpenAI path made it straightforward to test another provider behind the same application interface. I kept the choice configurable because latency alone is not enough; cost, output quality, reliability, and data policy also matter. At scale, I would compare providers with a fixed evaluation set instead of relying on one default.
-
-### NiceGUI for the prototype UI
-
-I chose NiceGUI because it supports browser updates and microphone controls without requiring a separate frontend codebase. That kept the project manageable while I worked through the audio, retrieval, and session pipeline. For a larger product with more frontend contributors or complex client state, I would likely move to a dedicated web framework and keep FastAPI as the API layer.
-
-## Known Limitations
-
-1. Live captions: browser interim captions rely on the Web Speech API. Chrome and Edge provide the best support; behavior can vary by browser, microphone permission, and network conditions.
-
-2. Toxicity detection: keyword and LLM scoring is not a validated Hinglish classifier. Performance can degrade on heavily code-switched text. Production fix: evaluate on a Hinglish-labeled dataset and fine-tune or calibrate thresholds.
-
-3. Local fallback storage: `REDIS_ALLOW_FAKE=1` and local `.txt`/`.md` retrieval keep demos usable when Redis or PostgreSQL are unavailable, but state is not durable and local BM25 is not equivalent to pgvector semantic retrieval.
-
-4. Bias-aware scoring: the prototype stores call score fields and exposes an aggregation endpoint, but the scoring model should be validated against real quality-review data before operational use.
-
-## Future ML Roadmap (Production Scaling)
-
-1. The current STT path has not been evaluated across Indian languages, so I would compare faster-whisper with AI4Bharat or Bhashini models on labeled Tamil, Telugu, Bengali, and Punjabi call audio.
-2. The current embedding model is not tested for cross-lingual retrieval, so I would evaluate multilingual models such as MuRIL or IndicBERT on queries where the spoken language differs from the policy language.
-3. The current prompts focus on English, Hindi, and Hinglish, so I would add test cases and response constraints for Gurmukhi, Bengali, Tamil, and Telugu scripts before claiming regional support.
-4. The current toxicity path can call an LLM, so I would train and evaluate a smaller classifier such as RoBERTa if labeled data shows it can reduce latency and cost without losing useful accuracy.
-
-## Model Evaluation & Benchmarks
-
-Evaluated on a dataset of synthetic English and Hinglish support calls. Hardware: CPU-only inference.
-
-### 1. NLP & Retrieval Accuracy
-
-| Pipeline Stage | Metric | Score | Notes |
-| --- | --- | --- | --- |
-| **STT (English)** | Word Error Rate (WER) | Not measured | Requires a labeled audio dataset with reference transcripts. |
-| **STT (Hinglish)** | Word Error Rate (WER) | Not measured | Requires a representative code-switched audio dataset. |
-| **Hybrid RAG** | Hit Rate @ Top 3 | Not measured | Requires labeled queries with expected source documents. |
-| **Toxicity Engine** | Precision / Recall | Not measured | Requires a reviewed English/Hinglish toxicity dataset. |
-
-Accuracy placeholders are intentionally left unclaimed until the project is evaluated against labeled reference data.
-
-### 2. End-to-End Latency
-
-| Metric | p50 | p95 | Notes |
-| --- | --- | --- | --- |
-| STT latency | 1355 ms | 1521 ms | faster-whisper base on CPU |
-| pgvector retrieval | 68 ms | 74 ms | Cosine search over approximately 500 chunks |
-| LLM response | 511 ms | 755 ms | Groq llama-3.3-70b-versatile |
-| End-to-end | 1937 ms | 2243 ms | Speech text to generated suggestion |
-
-## Database Tables
-
-### `knowledge_chunks`
-
-Stores document chunks used by the RAG retriever.
-
-```sql
-id
-content
-source_file
-category
-chunk_index
-embedding vector(384)
-created_at
-updated_at
-```
-
-### `call_logs`
-
-Stores call transcript and toxicity metadata.
-
-```sql
-id
-agent_id
-call_id
-transcript
-transcript_redacted
-toxicity_score
-toxicity_label
-is_abusive
-toxicity_explanation
-avg_pitch
-avg_loudness
-speaking_rate_wpm
-duration_seconds
-language
-started_at
-ended_at
-base_score
-adjusted_score
-aggressive_call_flag
-```
-
-The performance endpoint computes an adjusted aggregate from `base_score` and
-`aggressive_call_flag`. The per-call `adjusted_score` field is available for
-future persistence but is not currently populated by the call-ending route.
-
-### `agent_wellness`
-
-Stores per-agent stress and break recommendation records.
-
-```sql
-id
-agent_id
-stress_score
-total_calls
-toxic_calls
-consecutive_toxic
-break_recommended
-break_duration_minutes
-break_reason
-shift_date
-last_updated
-```
-
-## Setup
-
-### Step 1: Clone and create virtual environment
+### 1. Clone and create a virtual environment
 
 ```powershell
-git clone https://github.com/your-username/agentshield.git
+git clone https://github.com/laveshjadon/agentshield.git
 cd AgentShield
 python -m venv venv
 .\venv\Scripts\activate
 ```
 
-### Step 2: Install dependencies
+### 2. Install dependencies
 
 ```powershell
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-The current code imports `torch`, `torchaudio`, and `edge_tts`. If they are missing in your environment, install them:
+If optional runtime packages are missing:
 
 ```powershell
 pip install edge-tts
 pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
 ```
 
-### Step 3: Create `.env`
+### 3. Configure environment
 
-Copy `.env.example` to `.env` and replace placeholder values with local credentials.
+```powershell
+Copy-Item .env.example .env
+```
 
-### Step 4: Start PostgreSQL
+Edit `.env` with your database, Redis, and LLM provider credentials.
+
+### 4. Start PostgreSQL
 
 ```powershell
 docker compose up -d db
 ```
 
-### Step 5: Initialize schema
+### 5. Initialize the schema
 
 ```powershell
-python -m scripts.init_db
+python -m src.core.db
 ```
 
-### Step 6: Add knowledge-base files
+### 6. Add knowledge files
 
-Put supported knowledge files in:
+Place supported documents in `data/knowledge_base/`. Supported formats: `.txt` `.md` `.pdf` `.docx` `.html`
 
-```text
-data/knowledge_base/
-```
-
-### Step 7: Index knowledge base
+### 7. Index the knowledge base
 
 ```powershell
-python -m rag.document_loader
+python -m src.ingestion.indexer
 ```
 
-### Step 8: Run AgentShield
+### 8. Run AgentShield
 
 ```powershell
 python main.py
 ```
 
-### Step 9: Open the app
+### 9. Open local services
 
-```text
-Dashboard: http://localhost:8081
-API docs:  http://localhost:8080/docs
-Health:    http://localhost:8080/health
+| Service | URL |
+|---|---|
+| Dashboard | `http://localhost:8081` |
+| API docs | `http://localhost:8080/docs` |
+| Health check | `http://localhost:8080/health` |
+
+</details>
+
+---
+
+## 🔌 API Reference
+
+Interactive OpenAPI docs: `http://localhost:8080/docs`
+
+### Health & Status
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `GET` | `/` or `/api/info` | Service status |
+| `GET` | `/health` | API and database connectivity check |
+| `POST` | `/api/analysis/toxicity` | Analyze text for toxicity |
+
+### Calls
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `POST` | `/api/calls/start` | Start a call session, return `session_id` |
+| `POST` | `/api/calls/analyse-text` | Analyze a transcript turn, return suggestion |
+| `POST` | `/api/calls/transcribe-audio/{session_id}` | Upload audio for transcription |
+| `GET` | `/api/calls/session/{session_id}` | Return current session transcript |
+| `GET` | `/api/calls/active` | List active sessions |
+| `POST` | `/api/calls/end/{session_id}` | End session, persist summaries |
+| `GET` | `/api/calls/agent/{agent_id}/performance` | Return bias-adjusted performance metrics |
+| `WS` | `/api/calls/ws/audio/{session_id}` | Stream PCM audio for live transcription |
+
+> [!NOTE]
+> `POST /api/calls/end/{session_id}` requires `agent_id` as a query parameter.
+>
+> ```
+> POST /api/calls/end/a1b2c3d4e5?agent_id=agent_001
+> ```
+
+### Knowledge Base
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `POST` | `/api/knowledge/upload` | Upload and index a knowledge document |
+| `POST` | `/api/knowledge/search` | Search indexed knowledge chunks |
+| `GET` | `/api/knowledge/documents` | List uploaded documents |
+
+### Wellness
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `GET` | `/api/wellness/{agent_id}/status` | Current wellness status |
+| `POST` | `/api/wellness/{agent_id}/break` | Log a break |
+| `GET` | `/api/wellness/{agent_id}/report` | Shift report |
+| `GET` | `/api/wellness/` | List tracked agents |
+
+---
+
+## 🛡️ Toxicity Detection
+
+Two-pass detection designed for live-call latency constraints.
+
+**Pass 1 — Keyword + regex scan (fast)**
+
+| Category | Examples |
+|---|---|
+| Frustration | `pareshan`, `koi help nahi`, `bahut problem` |
+| Complaint | `complaint karunga`, `service kharab` |
+| Fraud / threat | `fraud company`, `police mein report` |
+| Abuse | English and Hinglish abuse patterns |
+
+**Pass 2 — LLM scoring (only when keyword score > 0.2)**
+
+Output: `score`, `level`, `flags`, `is_toxic`, `alert_message`
+
+**Score thresholds**
+
+| Range | Level | Meaning |
+|---|---|---|
+| `< 0.25` | `safe` | No action |
+| `0.25 – 0.49` | `warning` | Frustration or early hostility |
+| `0.50 – 0.74` | `danger` | Hostile language |
+| `≥ 0.75` | `critical` | Abusive or threatening language |
+
+---
+
+## ❤️ Agent Wellness Tracking
+
+Tracks toxic-call exposure across a full shift, not per-call.
+
+| Event | Wellness delta |
+|---|---|
+| Safe call | `+5` |
+| Warning call | `−3` |
+| Danger call | `−10` |
+| Critical call | `−20` |
+| Call > 5 min (toxic) | penalty `× 1.5` |
+| 3+ consecutive toxic | penalty `× 1.25` |
+| Break | `+2 per minute`, capped at `+40` |
+
+**Break recommended when:** score `< 30`, stress level `critical`, or 3+ consecutive toxic calls.
+
+---
+
+## ⚖️ Bias-Aware Performance Scoring
+
+Aggressive calls are weighted at `0.5×` to avoid penalizing agents for caller behavior they cannot control.
+
+```
+adjusted = (clean_avg × clean_count + aggressive_avg × 0.5 × agg_count)
+           / (clean_count + 0.5 × agg_count)
 ```
 
-## Environment Variables
+**Example**
+
+| Metric | Value |
+|---|---|
+| Clean calls | 8 @ avg 90 |
+| Aggressive calls | 4 @ avg 70 |
+| Raw average | 83.33 |
+| **Adjusted average** | **86.00** |
+
+---
+
+## 📊 Evaluation Pipeline
+
+AgentShield ships a full evaluation harness covering retrieval quality, hallucination, grounding, and PII redaction.
+
+### Retrieval Metrics
+
+#### 1. Install evaluation dependencies
+
+```powershell
+pip install -r evals_requirements.txt
+```
+
+#### 2. Configure environment variables
+
+```powershell
+$env:OPENAI_API_KEY="sk-..."
+$env:LANGCHAIN_API_KEY="lsv2_..."
+$env:LANGCHAIN_TRACING_V2="true"
+$env:LANGCHAIN_PROJECT="agentshield-hybrid-rag-eval"
+```
+
+#### 3. Prepare the golden dataset
+
+Golden examples live in `evaluation/golden_dataset.jsonl`. Each row requires `id`, `question`, `ground_truth`, and `ground_truth_context`.
+
+```json
+{
+  "id": "refund_window",
+  "question": "How long does a customer have to request a refund?",
+  "ground_truth": "Customers can request a refund within the refund window described in the refund policy.",
+  "ground_truth_context": ["refund_policy.txt"],
+  "metadata": {"topic": "refunds"}
+}
+```
+
+#### 4. Run retrieval metrics
+
+```powershell
+python -m evaluation.runner --pipeline mock
+python -m evaluation.runner --pipeline hybrid
+python -m evaluation.runner --pipeline baseline
+```
+
+Calculates and logs `recall@1/3/5`, `hit@1/3/5`, and `mrr@1/3/5` as LangSmith feedback scores. After the latest tuning, the hybrid retriever reaches `1.000` for `recall@1`, `hit@1`, and `mrr@1` on the included golden set.
+
+---
+
+### Generation Quality & Safety Evaluators
+
+Three evaluators cover hallucination, grounding, and PII redaction:
+
+| Evaluator | File | What it measures | Pass gate |
+|---|---|---|---|
+| **Faithfulness** | `evaluation/faithfulness.py` | Are all claims in a suggestion supported by the retrieved context? (LLM-as-judge) | Mean faithfulness ≥ 0.95 |
+| **Grounding bypass** | `evaluation/grounding.py` | Does the system refuse out-of-scope questions instead of hallucinating? | Bypass rate < 5%, over-refusal rate < 10% |
+| **PII coverage** | `evaluation/pii_eval.py` | Does PIIService catch every entity type without over-redacting clean tokens? | FNR < 5% per entity type, zero false-positive failures |
+
+#### Run the unified suite
+
+```powershell
+# All three evaluators, mock pipelines — no API keys required
+python -m evaluation.eval_suite --pipeline mock
+
+# Against the live hybrid pipeline
+python -m evaluation.eval_suite --pipeline hybrid
+
+# Skip one evaluator
+python -m evaluation.eval_suite --pipeline hybrid --skip pii
+```
+
+#### Run a single evaluator
+
+```powershell
+python -m evaluation.faithfulness --pipeline hybrid
+python -m evaluation.grounding --pipeline mock
+python -m evaluation.pii_eval --verbose
+```
+
+The out-of-scope test dataset for grounding is `evaluation/out_of_scope_dataset.jsonl` (14 OOS + 3 in-scope control questions). Add rows there to extend coverage.
+
+The unified runner exits with code `0` on full pass and `1` on any failure, making it suitable as a CI gate.
+
+---
+
+### Plug In Your Production Pipeline
+
+Edit `evaluation/rag_pipelines.py`. Your pipeline must return:
+
+```python
+{
+    "answer": "final generated answer",
+    "contexts": [
+        {
+            "source_file": "refund_policy.txt",
+            "chunk_index": 0,
+            "content": "retrieved chunk text",
+        }
+    ],
+    "metadata": {"pipeline": "hybrid"},
+}
+```
+
+---
+
+## 📌 Project Status
+
+> [!NOTE]
+> The core local pipeline is implemented and functional. The items below are known hardening requirements before any production deployment.
+
+- [ ] Add authentication and authorization.
+- [ ] Replace permissive CORS defaults with deployment-specific origins.
+- [ ] Move in-process `ConversationManager` to shared infrastructure for horizontal scaling.
+- [ ] Profile synchronous retrieval and model operations under realistic concurrency.
+- [ ] Validate Hinglish toxicity thresholds against a labeled dataset.
+- [ ] Validate bias-aware scoring against real quality-review data.
+- [ ] Replace `fakeredis` and local BM25 fallbacks with durable production services.
+- [ ] Add secure WebSocket deployment behind an API gateway or reverse proxy with `wss://`.
+
+---
+
+## 📝 Environment Variables
+
+<details>
+<summary><strong>Expand environment reference</strong></summary>
+<br/>
 
 | Variable | Required | Purpose |
-| --- | --- | --- |
-| `POSTGRES_USER` | Yes | PostgreSQL username. |
-| `POSTGRES_PASSWORD` | Yes | PostgreSQL password. |
-| `POSTGRES_DB` | Yes | PostgreSQL database name. |
-| `POSTGRES_HOST` | Yes | Database host. Use `localhost` locally and `db` inside Docker Compose app service. |
-| `POSTGRES_PORT` | Yes | Database port. |
-| `REDIS_URL` | Yes | Redis connection URL used for session and wellness state. |
-| `REDIS_ALLOW_FAKE` | No | Set to `1` only for local development to use in-memory fakeredis when Redis is unavailable. |
-| `LLM_PROVIDER` | Yes | `openai` or `groq`. |
-| `LLM_MODEL` | Yes | Chat model name passed to the provider. |
-| `GROQ_API_KEY` | Required for Groq | API key for Groq. |
-| `OPENAI_API_KEY` | Required for OpenAI | API key for OpenAI. |
-| `WHISPER_MODEL` | Yes | faster-whisper model size, such as `base`, `small`, or `medium`. |
-| `WHISPER_DEVICE` | Yes | `cpu` or `cuda`. |
-| `EMBEDDING_MODEL` | Yes | Sentence-transformers model name. |
-| `RAG_CHUNK_SIZE` | Yes | Character chunk size for document splitting. |
-| `RAG_CHUNK_OVERLAP` | Yes | Character overlap between chunks. |
-| `RAG_TOP_K` | Yes | Number of chunks returned by retrieval. |
-| `APP_HOST` | Yes | API host used by `api/main.py`. |
-| `APP_PORT` | Yes | API port used by `api/main.py`. |
-| `LOG_LEVEL` | Yes | Logging level. |
-| `CORS_ORIGINS` | Yes | Comma-separated browser origins allowed to call the API. |
+|---|---|---|
+| `POSTGRES_USER` | Yes | PostgreSQL username |
+| `POSTGRES_PASSWORD` | Yes | PostgreSQL password |
+| `POSTGRES_DB` | Yes | PostgreSQL database name |
+| `POSTGRES_HOST` | Yes | `localhost` locally, `db` inside Docker Compose |
+| `POSTGRES_PORT` | Yes | Database port |
+| `REDIS_URL` | Yes | Redis connection URL |
+| `REDIS_ALLOW_FAKE` | No | Set `1` for local dev without a Redis instance |
+| `LLM_PROVIDER` | Yes | `openai` or `groq` |
+| `LLM_MODEL` | Yes | Chat model name passed to the provider |
+| `GROQ_API_KEY` | For Groq | Groq API key |
+| `OPENAI_API_KEY` | For OpenAI | OpenAI API key |
+| `WHISPER_MODEL` | Yes | `base`, `small`, or `medium` |
+| `WHISPER_DEVICE` | Yes | `cpu` or `cuda` |
+| `EMBEDDING_MODEL` | Yes | Sentence-transformers model name |
+| `RAG_CHUNK_SIZE` | Yes | Character chunk size for document splitting |
+| `RAG_CHUNK_OVERLAP` | Yes | Character overlap between chunks |
+| `RAG_TOP_K` | Yes | Number of chunks returned by retrieval |
+| `APP_HOST` | Yes | API bind host |
+| `APP_PORT` | Yes | API bind port |
+| `LOG_LEVEL` | Yes | Application logging level |
+| `CORS_ORIGINS` | Yes | Comma-separated allowed browser origins |
 
-## Usage Flow
+</details>
 
-After setup, start a call from the dashboard and allow microphone access. Customer Mic and Agent Mic send audio through the live pipeline, while browser captions provide immediate text feedback. Finalized transcript entries then drive retrieval, response generation, toxicity scoring, and wellness updates shown in the same view.
+> [!WARNING]
+> Never commit `.env`, API keys, customer transcripts, or production knowledge-base documents to version control.
 
-## Development Fallbacks
+---
 
-I added two fallbacks so the main workflow can still be demonstrated when local infrastructure is unavailable:
+## 🗺️ Roadmap
 
-- Set `REDIS_ALLOW_FAKE=1` to use in-memory fakeredis if Redis cannot be reached.
-- If PostgreSQL/pgvector retrieval fails, `rag/retriever.py` searches local `.txt` and `.md` knowledge files with BM25.
-- These fallbacks are logged clearly and should not be enabled as production substitutes.
+### Phase 1 — Indic Language Expansion
+- [ ] Evaluate Indic STT models (AI4Bharat, Bhashini) for Hindi, Tamil, Telugu, Bengali.
+- [ ] Upgrade embeddings to a multilingual model (MuRIL or IndicBERT) for cross-lingual retrieval.
+- [ ] Add dashboard language selectors for Web Speech API and native script UI.
 
-Example local command:
+### Phase 2 — Local Model Optimization
+- [ ] Evaluate Indic-aware tokenizers for RAG chunking.
+- [ ] Test local SLM serving with `vLLM` (Llama-3-Indic, OpenHathi).
+- [ ] Benchmark quality, latency, and cost before migrating from external APIs.
 
-```powershell
-$env:REDIS_ALLOW_FAKE="1"
-python main.py
-```
+### Phase 3 — Human Feedback Loop
+- [ ] Add positive/negative feedback controls to dashboard suggestions.
+- [ ] Store feedback with redacted transcript, context, selected response, and model version.
+- [ ] Build offline quality, safety, and regression evaluation gates.
+- [ ] Explore DPO fine-tuning from reviewed preference pairs.
 
-## Troubleshooting 
+### Phase 4 — Enterprise Deployment
+- [ ] Move STT and local model inference to GPU compute (AWS G4dn or G5).
+- [ ] Migrate PostgreSQL/pgvector to managed RDS and Redis to ElastiCache.
+- [ ] Add JWT authentication, authorization, and secret management.
+- [ ] Enable `wss://` behind Nginx or an API gateway.
+- [ ] Support distributed WebSocket sessions across application instances.
 
-### Microphone is active but no transcript appears
+---
 
-1. Use Chrome or Edge and open `http://localhost:8081`.
-2. Allow microphone permission for localhost.
-3. Hard refresh with `Ctrl+Shift+R` after dashboard JavaScript changes.
-4. Start a new call before enabling Customer Mic.
-5. Speak clearly, pause briefly, and stop the mic to flush the final utterance.
+## 🤝 Contributing
 
-### Refund query shows `No KB match found`
+Issues and pull requests are welcome. Keep changes scoped, tested, and aligned with the existing architecture.
 
-Test with:
+---
 
-```text
-I want a refund for my router.
-```
+## 📄 License
 
-This should retrieve `refund_policy.txt`. If PostgreSQL is unavailable, the local BM25 fallback should provide the policy. Greetings such as `hello` correctly return no KB match.
+Released under the [MIT License](LICENSE).

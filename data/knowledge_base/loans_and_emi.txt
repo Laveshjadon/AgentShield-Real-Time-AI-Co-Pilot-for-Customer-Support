@@ -1,0 +1,39 @@
+LOANS & EMI POLICY
+
+Q: Customer's EMI was deducted but loan account not updated.
+A: EMI deduction and loan account update run on separate systems. Updates reflect within 24 hours of deduction. If still not updated after 24 hours, verify payment receipt and raise a reconciliation ticket.
+
+Q: Customer wants to pre-close their loan.
+A: Pre-closure steps:
+1. Customer must complete a minimum of 6 EMIs before pre-closure is allowed.
+2. Pre-closure charge: 2% of outstanding principal (waived for floating rate loans after RBI guidelines).
+3. Customer must request pre-closure in writing (email or branch visit).
+4. Final outstanding amount will be calculated on the date of pre-closure.
+5. NOC (No Objection Certificate) issued within 15 business days after full payment.
+
+Q: Customer missed an EMI — what are the consequences?
+A: Late payment charges: ₹500 or 2% of EMI amount, whichever is higher, per missed EMI. Credit score impact: reported to CIBIL if EMI is overdue by more than 30 days. Offer the customer a one-time EMI restructuring option if they are facing genuine financial difficulty.
+
+Q: Customer asking about loan eligibility.
+A: Eligibility criteria:
+- Salaried: minimum net salary ₹25,000/month, minimum 6 months in current job
+- Self-employed: minimum 2 years of business, ITR for last 2 years required
+- CIBIL score: minimum 700 for personal loans, 650 for secured loans
+- Age: 21–60 years (salaried), 21–65 years (self-employed)
+Direct customer to apply online or visit branch for final eligibility check.
+
+Q: What documents are needed for a personal loan?
+A: Required documents:
+- PAN card (mandatory)
+- Aadhaar card
+- Last 3 months salary slips (salaried) or last 2 years ITR (self-employed)
+- Last 6 months bank statement
+- Address proof (utility bill, passport, or rental agreement)
+
+FIXED DEPOSITS
+
+Q: How to open a Fixed Deposit?
+A: FDs can be opened via app, net banking, or branch. Minimum amount: ₹1,000. Tenure: 7 days to 10 years. Interest rates vary by tenure — current rates available on website and app. Senior citizens get 0.5% additional interest.
+
+Q: Customer wants to break FD prematurely.
+A: Premature withdrawal allowed with 1% penalty on the contracted rate. FDs under 7 days cannot be broken prematurely. Loan against FD available up to 90% of FD value as an alternative to breaking it.
